@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Outbound Playbook – Performance Marketing für Shopify</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:         #07081a;
+      --bg-card:    #0e1030;
+      --bg-card-2:  #131535;
+      --border:     rgba(255,255,255,0.07);
+      --border-2:   rgba(255,255,255,0.12);
+      --accent:     #7c6dfa;
+      --accent-2:   #fa6d9e;
+      --accent-3:   #6dfabd;
+      --accent-4:   #fabd6d;
+      --text:       #e2e8f0;
+      --muted:      #6b7280;
+      --muted-2:    #9ca3af;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    /* ── SCROLL BAR ── */
+    #progress-bar {
+      position: fixed; top: 0; left: 0; height: 3px; width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--accent-3));
+      z-index: 1000; transition: width .1s linear;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 3px; left: 0; right: 0; z-index: 900;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2.5rem; height: 58px;
+      background: rgba(7,8,26,.88); backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-weight: 800; font-size: .95rem;
+      background: linear-gradient(120deg, var(--accent), var(--accent-3));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .nav-links { display: flex; gap: 1.75rem; list-style: none; }
+    .nav-links a {
+      color: var(--muted-2); text-decoration: none;
+      font-size: .8rem; font-weight: 500; transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    /* ── LAYOUT ── */
+    .section {
+      max-width: 1080px; margin: 0 auto;
+      padding: 7rem 2rem;
+    }
+    .section-sm { max-width: 780px; }
+
+    /* ── TYPOGRAPHY ── */
+    .label {
+      display: inline-block;
+      font-size: .7rem; font-weight: 700;
+      letter-spacing: .18em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 1rem;
+    }
+    h1 { font-size: clamp(2.4rem, 5vw, 3.8rem); font-weight: 900; line-height: 1.08; }
+    h2 { font-size: clamp(1.7rem, 3vw, 2.4rem); font-weight: 800; line-height: 1.15; margin-bottom: .75rem; }
+    h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: .4rem; }
+    p  { color: var(--muted-2); line-height: 1.8; }
+
+    .grad { background: linear-gradient(120deg, var(--accent), var(--accent-2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .grad-green { background: linear-gradient(120deg, var(--accent), var(--accent-3)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+    /* ── CARDS ── */
+    .card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 16px; padding: 1.75rem;
+      transition: border-color .25s, transform .25s, background .25s;
+    }
+    .card:hover {
+      border-color: rgba(124,109,250,.35);
+      background: var(--bg-card-2);
+      transform: translateY(-2px);
+    }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.25rem; }
+
+    /* ── BADGES ── */
+    .badge {
+      display: inline-flex; align-items: center; gap: .35rem;
+      padding: .25rem .7rem; border-radius: 100px;
+      font-size: .72rem; font-weight: 700;
+    }
+    .b-purple { background: rgba(124,109,250,.15); color: #7c6dfa; }
+    .b-green  { background: rgba(109,250,189,.15); color: #6dfabd; }
+    .b-red    { background: rgba(250,109,109,.15); color: #fa6d6d; }
+    .b-orange { background: rgba(250,189,109,.15); color: #fabd6d; }
+    .b-gray   { background: rgba(107,114,128,.15); color: #9ca3af; }
+
+    /* ── DIVIDER ── */
+    hr { border: none; border-top: 1px solid var(--border); margin: 1.25rem 0; }
+
+    /* ── INFO BOX ── */
+    .info {
+      background: rgba(124,109,250,.08); border: 1px solid rgba(124,109,250,.22);
+      border-radius: 12px; padding: 1.1rem 1.4rem; margin-top: 1.5rem;
+    }
+    .info-title { font-weight: 700; font-size: .8rem; color: var(--accent); margin-bottom: .35rem; }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh; display: flex; flex-direction: column;
+      justify-content: center; align-items: center; text-align: center;
+      padding: 8rem 2rem 6rem;
+      background: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(124,109,250,.18), transparent);
+    }
+    .hero-sub {
+      font-size: 1.1rem; color: var(--muted-2); max-width: 580px;
+      margin: 1.5rem auto 0; line-height: 1.75;
+    }
+    .stats-row {
+      display: flex; gap: 3rem; justify-content: center;
+      margin-top: 4rem; flex-wrap: wrap;
+    }
+    .stat-num {
+      font-size: 2.4rem; font-weight: 900;
+      background: linear-gradient(120deg, var(--accent), var(--accent-3));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .stat-lbl { font-size: .78rem; color: var(--muted); margin-top: .2rem; }
+
+    /* ── LEVEL BARS ── */
+    .level-item {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: .7rem 1rem; border-radius: 10px; margin-bottom: .5rem;
+      background: rgba(255,255,255,.025);
+    }
+    .level-left { display: flex; align-items: center; gap: .75rem; font-size: .875rem; }
+    .level-bar { height: 4px; border-radius: 2px; margin-top: .3rem; background: rgba(255,255,255,.06); }
+    .level-fill { height: 100%; border-radius: 2px; }
+
+    /* ── FLOW ── */
+    .flow-wrap { display: flex; flex-direction: column; }
+    .flow-item { display: flex; gap: 1.5rem; align-items: flex-start; }
+    .flow-col  { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; width: 40px; }
+    .flow-dot  {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--bg-card-2); border: 2px solid var(--accent);
+      display: flex; align-items: center; justify-content: center; font-size: 1.1rem;
+    }
+    .flow-line {
+      width: 2px; flex: 1; min-height: 2.5rem;
+      background: linear-gradient(to bottom, rgba(124,109,250,.5), transparent);
+      margin: .3rem 0;
+    }
+    .flow-body { padding-bottom: 2.5rem; flex: 1; }
+
+    /* ── SCORE ROW ── */
+    .score-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: .65rem 1rem; border-radius: 8px; margin-bottom: .4rem;
+      background: rgba(255,255,255,.025); font-size: .875rem;
+    }
+    .score-pts { font-weight: 800; font-size: 1rem; }
+
+    /* ── STACK LAYER ── */
+    .stack-row {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 1rem 1.25rem;
+      display: flex; align-items: center; gap: 1rem; margin-bottom: .5rem;
+    }
+    .stack-arrow { text-align: center; color: var(--accent); font-size: 1.2rem; margin: .2rem 0; }
+
+    /* ── TOOL CHIP ── */
+    .chip {
+      display: inline-flex; align-items: center; gap: .3rem;
+      padding: .2rem .65rem; border-radius: 7px; font-size: .75rem; font-weight: 600;
+      background: var(--bg-card-2); border: 1px solid var(--border-2); margin: .2rem;
+    }
+
+    /* ── EMAIL COMPARE ── */
+    .tabs-bar { display: flex; gap: .5rem; margin-bottom: 1.25rem; }
+    .tab-btn {
+      padding: .45rem 1.2rem; border-radius: 8px; cursor: pointer;
+      font-size: .82rem; font-weight: 600; border: 1px solid var(--border-2);
+      background: transparent; color: var(--muted-2); transition: all .2s;
+    }
+    .tab-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .tab-pane { display: none; }
+    .tab-pane.active { display: block; }
+
+    .email-mock {
+      background: #111230; border: 1px solid var(--border-2);
+      border-radius: 12px; overflow: hidden;
+    }
+    .email-chrome {
+      background: #1c1d3a; padding: .85rem 1.25rem;
+      display: flex; align-items: center; gap: .5rem;
+    }
+    .dot { width: 11px; height: 11px; border-radius: 50%; }
+    .email-subj { margin-left: 1rem; font-size: .78rem; color: var(--muted-2); }
+    .email-body { padding: 1.5rem; font-size: .875rem; line-height: 1.85; color: var(--text); }
+    .hl-bad  { background: rgba(250,109,109,.14); border-bottom: 1px solid rgba(250,109,109,.5); padding: 0 2px; }
+    .hl-good { background: rgba(109,250,189,.12); border-bottom: 1px solid rgba(109,250,189,.5); padding: 0 2px; }
+
+    /* ── PROGRESS ── */
+    .prog-bar { height: 5px; border-radius: 3px; background: rgba(255,255,255,.07); margin-top: .35rem; overflow: hidden; }
+    .prog-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--accent), var(--accent-3)); }
+
+    /* ── ACTION ITEMS ── */
+    .action-card {
+      display: flex; gap: 1.25rem; align-items: flex-start;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 1.25rem 1.5rem; margin-bottom: .75rem;
+      transition: border-color .2s;
+    }
+    .action-card:hover { border-color: rgba(124,109,250,.3); }
+    .day-tag {
+      background: rgba(124,109,250,.15); color: var(--accent);
+      padding: .35rem .8rem; border-radius: 8px;
+      font-size: .78rem; font-weight: 800; flex-shrink: 0; white-space: nowrap;
+    }
+
+    /* ── COST TABLE ── */
+    .cost-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: .55rem .9rem; border-radius: 8px; margin-bottom: .35rem;
+      background: rgba(255,255,255,.025); font-size: .85rem;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center; padding: 4rem 2rem;
+      border-top: 1px solid var(--border);
+      color: var(--muted); font-size: .8rem;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 720px) {
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+      .section { padding: 5rem 1.25rem; }
+      h1 { font-size: 2rem; }
+      .stats-row { gap: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Outbound Playbook</div>
+  <ul class="nav-links">
+    <li><a href="#problem">Problem</a></li>
+    <li><a href="#strategie">Strategie</a></li>
+    <li><a href="#leads">Leads</a></li>
+    <li><a href="#signale">Signale</a></li>
+    <li><a href="#scoring">Scoring</a></li>
+    <li><a href="#clay">Clay & AI</a></li>
+    <li><a href="#sequenz">Sequenz</a></li>
+    <li><a href="#stack">Stack</a></li>
+  </ul>
+</nav>
+
+<!-- ═══════════════════════ HERO ═══════════════════════ -->
+<section id="home">
+  <div id="hero">
+    <div class="label">B2B Outbound Playbook · Performance Marketing für Shopify</div>
+    <h1>Outbound, der sich<br><span class="grad">wie ein Tipp anfühlt</span><br>– nicht wie Spam.</h1>
+    <p class="hero-sub">
+      Wie wir deutschsprachige Shopify-Shops bis 10 Mio. € Umsatz finden, mit Signalen qualifizieren und
+      mit hyper-personalisierten Nachrichten ansprechen, die eine echte Reaktion auslösen.
+    </p>
+    <div class="stats-row">
+      <div>
+        <div class="stat-num">50–100</div>
+        <div class="stat-lbl">qualifizierte Leads / Monat</div>
+      </div>
+      <div>
+        <div class="stat-num">8–15%</div>
+        <div class="stat-lbl">angestrebte Reply-Rate</div>
+      </div>
+      <div>
+        <div class="stat-num">3–8</div>
+        <div class="stat-lbl">Meetings / Monat</div>
+      </div>
+      <div>
+        <div class="stat-num">~$108</div>
+        <div class="stat-lbl">Tool-Kosten / Monat</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ 01 PROBLEM ═══════════════════════ -->
+<section id="problem" class="section">
+  <div class="label">01 · Das Problem</div>
+  <h2>Warum 99 % der Cold Emails<br><span class="grad">sofort gelöscht</span> werden</h2>
+  <p style="max-width:600px;margin-bottom:2.5rem;">
+    Alle benutzen dieselben Tools, dieselben Listen, dieselben Templates.
+    Das Ergebnis ist vorhersehbar: Postfächer voller bedeutungsloser Massenansprache – und Empfänger, die gelernt haben, sie reflexartig zu ignorieren.
+  </p>
+
+  <div class="grid-3" style="margin-bottom:2rem;">
+    <div class="card">
+      <div style="font-size:1.8rem;margin-bottom:.75rem;">🎯</div>
+      <h3>Falsche Zielgruppe</h3>
+      <p>Shops werden nach Branche gefiltert – nicht danach, ob sie bereits Ads schalten, Budget haben und wirklich skalieren wollen.</p>
+    </div>
+    <div class="card">
+      <div style="font-size:1.8rem;margin-bottom:.75rem;">📋</div>
+      <h3>Pseudo-Personalisierung</h3>
+      <p>„Ich sehe du hast einen Shopify-Shop" ist keine Personalisierung. Es zeigt nur: Du weißt nichts über mich und hast dir keine Mühe gegeben.</p>
+    </div>
+    <div class="card">
+      <div style="font-size:1.8rem;margin-bottom:.75rem;">⏰</div>
+      <h3>Falscher Zeitpunkt</h3>
+      <p>Eine kalte Nachricht ist nur relevant, wenn der Empfänger gerade einen konkreten Schmerz spürt. Timing ist alles – und es lässt sich messen.</p>
+    </div>
+  </div>
+
+  <div class="info">
+    <div class="info-title">💡 Die Lösung: Signal-Based Outreach</div>
+    <p>Wir kontaktieren Shops genau dann, wenn ein messbares Signal zeigt, dass sie ein Problem haben oder wachsen wollen – und wir referenzieren dieses Signal direkt in der ersten Zeile.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════ 02 STRATEGIE ═══════════════════════ -->
+<section id="strategie" class="section">
+  <div class="label">02 · Strategie</div>
+  <h2>Qualität vor Quantität:<br><span class="grad-green">50 perfekte Leads</span> schlagen 500 generische</h2>
+  <p style="max-width:600px;margin-bottom:2.5rem;">
+    Das Ziel ist nicht, möglichst viele E-Mails zu versenden. Das Ziel ist, dass jede E-Mail so klingt, als wäre sie
+    stundenlang recherchiert worden – obwohl sie zu 80 % automatisiert ist.
+  </p>
+
+  <div class="grid-2" style="margin-bottom:2.5rem;">
+    <div class="card" style="border-color:rgba(250,109,109,.25);">
+      <div class="badge b-red" style="margin-bottom:1rem;">❌ Altes Denken</div>
+      <h3 style="margin-bottom:.75rem;">Volume Outreach</h3>
+      <div style="display:flex;flex-direction:column;gap:.4rem;font-size:.875rem;color:var(--muted-2);">
+        <div>• 500–1.000 Leads / Monat</div>
+        <div>• Generisches Template, Firma eingesetzt</div>
+        <div>• Reply-Rate: 0,3–1 %</div>
+        <div>• Spam-Beschwerden, schlechte Reputation</div>
+        <div>• Nicht skalierbar (Qualität sinkt)</div>
+      </div>
+    </div>
+    <div class="card" style="border-color:rgba(109,250,189,.25);">
+      <div class="badge b-green" style="margin-bottom:1rem;">✅ Neues Denken</div>
+      <h3 style="margin-bottom:.75rem;">Signal-Based Outreach</h3>
+      <div style="display:flex;flex-direction:column;gap:.4rem;font-size:.875rem;color:var(--muted-2);">
+        <div>• 50–100 qualifizierte Leads / Monat</div>
+        <div>• Hyper-personalisiert mit echten Signalen</div>
+        <div>• Reply-Rate: 8–15 %</div>
+        <div>• Positive Markenwahrnehmung</div>
+        <div>• Skalierbar & vorhersagbar</div>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="margin-bottom:1rem;color:var(--muted-2);font-size:.8rem;text-transform:uppercase;letter-spacing:.12em;">Die 5 Personalisierungsstufen</h3>
+  <div>
+    <div class="level-item" style="border-left:3px solid #fa6d6d;">
+      <div class="level-left"><span style="color:var(--muted);">Lvl 1</span> „Ich sehe du hast einen Shopify-Shop"</div>
+      <span class="badge b-red">Wertlos</span>
+    </div>
+    <div class="level-item" style="border-left:3px solid #fabd6d;">
+      <div class="level-left"><span style="color:var(--muted);">Lvl 2</span> „Du verkaufst [Produktkategorie] an [Zielgruppe]"</div>
+      <span class="badge b-orange">Schwach</span>
+    </div>
+    <div class="level-item" style="border-left:3px solid var(--accent);">
+      <div class="level-left"><span style="color:var(--muted);">Lvl 3</span> „Ihr schaltet Meta Ads, aber ohne Dynamic Product Ads"</div>
+      <span class="badge b-purple">Gut</span>
+    </div>
+    <div class="level-item" style="border-left:3px solid var(--accent-3);">
+      <div class="level-left"><span style="color:var(--muted);">Lvl 4</span> „Eure Ads laufen 3 Monate — ich habe eine konkrete Idee für euch"</div>
+      <span class="badge b-green">Sehr gut</span>
+    </div>
+    <div class="level-item" style="border-left:3px solid var(--accent-3);background:rgba(109,250,189,.04);">
+      <div class="level-left"><span style="color:var(--muted);">Lvl 5</span> „Dein LinkedIn-Post von Montag + eure Ads + euer Produktlaunch → konkrete Idee"</div>
+      <span class="badge b-green">🎯 Ziel</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ 03 LEADS ═══════════════════════ -->
+<section id="leads" class="section">
+  <div class="label">03 · Lead-Finden</div>
+  <h2>Die richtigen Shops <span class="grad">präzise finden</span></h2>
+  <p style="max-width:600px;margin-bottom:2.5rem;">
+    Nicht jeder Shopify-Shop ist ein guter Lead. Wir wollen genau die,
+    die bereits Marketingbudget investieren, skalieren wollen und den richtigen Entscheidungsträger haben.
+  </p>
+
+  <div class="grid-2" style="margin-bottom:2rem;">
+    <div class="card">
+      <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#9c6dfa);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;margin-bottom:1rem;">1</div>
+      <h3>Apollo.io</h3>
+      <p style="margin-bottom:1rem;">Technografie-Filter direkt auf „Shopify" – kombiniert mit DACH-Region und Unternehmensgröße. Schnellste Methode.</p>
+      <hr>
+      <div style="display:flex;flex-direction:column;gap:.4rem;margin-top:.75rem;font-size:.82rem;">
+        <div><span style="color:var(--accent);font-weight:600;">Technology:</span> <span style="color:var(--muted-2);">Shopify</span></div>
+        <div><span style="color:var(--accent);font-weight:600;">Country:</span> <span style="color:var(--muted-2);">Germany / Austria / Switzerland</span></div>
+        <div><span style="color:var(--accent);font-weight:600;">Employees:</span> <span style="color:var(--muted-2);">5–50</span></div>
+        <div><span style="color:var(--accent);font-weight:600;">Title:</span> <span style="color:var(--muted-2);">CEO, Founder, Head of Marketing, CMO</span></div>
+      </div>
+      <div style="margin-top:1rem;"><span class="badge b-green">✓ Primäre Quelle</span></div>
+    </div>
+    <div class="card">
+      <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#9c6dfa);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;margin-bottom:1rem;">2</div>
+      <h3>BuiltWith / SimilarTech</h3>
+      <p style="margin-bottom:1rem;">Alle .de / .at / .ch Domains, die Shopify nutzen — mit Traffic-Schätzungen als Umsatz-Proxy.</p>
+      <hr>
+      <div style="display:flex;flex-direction:column;gap:.4rem;margin-top:.75rem;font-size:.82rem;">
+        <div><span style="color:var(--accent);font-weight:600;">Platform:</span> <span style="color:var(--muted-2);">Shopify</span></div>
+        <div><span style="color:var(--accent);font-weight:600;">Domain:</span> <span style="color:var(--muted-2)">.de / .at / .ch / .com (deutschsprachig)</span></div>
+        <div><span style="color:var(--accent);font-weight:600;">Traffic:</span> <span style="color:var(--muted-2);">1K – 200K Besucher / Monat</span></div>
+        <div><span style="color:var(--accent);font-weight:600;">Bonus:</span> <span style="color:var(--muted-2);">Welche anderen Tools nutzen sie?</span></div>
+      </div>
+      <div style="margin-top:1rem;"><span class="badge b-purple">→ Direkt in Clay importieren</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 style="margin-bottom:1.25rem;">🎯 Ideales Lead-Profil (ICP)</h3>
+    <div class="grid-3">
+      <div>
+        <div style="color:var(--muted);font-size:.7rem;text-transform:uppercase;letter-spacing:.12em;margin-bottom:.6rem;">Unternehmen</div>
+        <div style="display:flex;flex-direction:column;gap:.35rem;font-size:.85rem;color:var(--muted-2);">
+          <div>• Shopify-Shop, DACH</div>
+          <div>• 5–50 Mitarbeiter</div>
+          <div>• 500K – 10M€ Jahresumsatz</div>
+          <div>• B2C, echtes Eigenprodukt</div>
+          <div>• Kein reines Dropshipping</div>
+        </div>
+      </div>
+      <div>
+        <div style="color:var(--muted);font-size:.7rem;text-transform:uppercase;letter-spacing:.12em;margin-bottom:.6rem;">Marketing-Reifegrad</div>
+        <div style="display:flex;flex-direction:column;gap:.35rem;font-size:.85rem;color:var(--muted-2);">
+          <div>• Schaltet bereits Meta Ads</div>
+          <div>• Kein bestehendes Agentur-Mandat</div>
+          <div>• ROAS ausbaufähig</div>
+          <div>• Wachstumsambitionen erkennbar</div>
+        </div>
+      </div>
+      <div>
+        <div style="color:var(--muted);font-size:.7rem;text-transform:uppercase;letter-spacing:.12em;margin-bottom:.6rem;">Entscheidungsträger</div>
+        <div style="display:flex;flex-direction:column;gap:.35rem;font-size:.85rem;color:var(--muted-2);">
+          <div>• CEO / Founder / Co-Founder</div>
+          <div>• Head of Marketing / CMO</div>
+          <div>• Aktiv auf LinkedIn</div>
+          <div>• Postet über Wachstum oder Probleme</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ 04 SIGNALE ═══════════════════════ -->
+<section id="signale" class="section">
+  <div class="label">04 · Signal Collection</div>
+  <h2>Die richtigen <span class="grad">Momente erkennen</span></h2>
+  <p style="max-width:600px;margin-bottom:3rem;">
+    Signale zeigen: Dieser Shop hat gerade einen konkreten Schmerz oder eine konkrete Chance.
+    Wer im richtigen Moment mit der richtigen Botschaft erscheint, wird nicht als Spam wahrgenommen – sondern als Lösung.
+  </p>
+
+  <div class="flow-wrap">
+
+    <!-- Signal 1 -->
+    <div class="flow-item">
+      <div class="flow-col">
+        <div class="flow-dot">🎯</div>
+        <div class="flow-line"></div>
+      </div>
+      <div class="flow-body">
+        <h3>Meta Ad Library Check <span class="badge b-green" style="vertical-align:middle;margin-left:.5rem;">Stärkstes Signal</span></h3>
+        <p style="margin-bottom:.75rem;">Für eine Performance-Marketing-Agentur ist das der Goldstandard. Komplett kostenlos, öffentlich zugänglich, und direkt relevant.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1rem;">
+          <span class="badge b-green">✓ Schaltet Ads → Budget vorhanden</span>
+          <span class="badge b-orange">⚡ Ads seit &lt; 30 Tagen → gerade gestartet</span>
+          <span class="badge b-purple">🔄 Nur 1–2 Creatives → braucht Creative-Support</span>
+          <span class="badge b-red">✗ Keine Ads → Sales-Aufwand zu hoch</span>
+        </div>
+        <div class="info">
+          <div class="info-title">Clay Automation</div>
+          <p style="font-size:.82rem;">Clay HTTP-Request an die Ad Library API → Anzahl aktiver Ads, Laufzeit, Format (Video/Bild/Carousel) werden als Felder gespeichert und fließen automatisch in den Personalisierungs-Prompt.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Signal 2 -->
+    <div class="flow-item">
+      <div class="flow-col">
+        <div class="flow-dot">💬</div>
+        <div class="flow-line"></div>
+      </div>
+      <div class="flow-body">
+        <h3>LinkedIn-Activity des Founders</h3>
+        <p style="margin-bottom:.75rem;">Hat die Geschäftsführung in den letzten 30 Tagen gepostet? Über was? Das ist der direkteste Weg zur hyper-personalisierten Eröffnung.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.75rem;">
+          <span class="badge b-green">Post über CPM-Kosten → direkter Schmerz</span>
+          <span class="badge b-green">Post über Produktlaunch → Timing perfekt</span>
+          <span class="badge b-green">Post über Wachstumsziele → Ambitionen</span>
+          <span class="badge b-gray">Kein Post → E-Mail bevorzugen</span>
+        </div>
+        <div style="padding:.75rem 1rem;background:rgba(255,255,255,.03);border-radius:8px;font-size:.82rem;color:var(--muted-2);font-style:italic;">
+          Tool-Flow: Phantombuster LinkedIn Profile Scraper → Clay → OpenAI analysiert Post-Inhalt → Opener-Satz generiert
+        </div>
+      </div>
+    </div>
+
+    <!-- Signal 3 -->
+    <div class="flow-item">
+      <div class="flow-col">
+        <div class="flow-dot">📢</div>
+        <div class="flow-line"></div>
+      </div>
+      <div class="flow-body">
+        <h3>Offene Stellenausschreibungen</h3>
+        <p style="margin-bottom:.75rem;">Ein Shopify-Shop, der gerade einen „Performance Marketing Manager" sucht, hat Wachstumsambitionen – aber noch keine Lösung.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:.4rem;">
+          <span class="badge b-green">Sucht Performance Marketer → perfekter Moment</span>
+          <span class="badge b-orange">Sucht Social Media Manager → leicht abweichend</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Signal 4 -->
+    <div class="flow-item">
+      <div class="flow-col">
+        <div class="flow-dot">🛍️</div>
+      </div>
+      <div class="flow-body">
+        <h3>Shop-Signale</h3>
+        <p style="margin-bottom:.75rem;">Was passiert gerade im Shop selbst? Diese Signale zeigen Momentum – oder Probleme.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:.4rem;">
+          <span class="badge b-green">Neuer Produkt-Launch → Marketingbedarf</span>
+          <span class="badge b-green">Saisonale Sale-Aktion läuft</span>
+          <span class="badge b-orange">Trustpilot-Reviews mit Schmerz-Erwähnungen</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════ 05 SCORING ═══════════════════════ -->
+<section id="scoring" class="section">
+  <div class="label">05 · Lead Scoring</div>
+  <h2>Automatisch die <span class="grad">besten 50 priorisieren</span></h2>
+  <p style="max-width:600px;margin-bottom:2.5rem;">
+    Nicht jeder Lead bekommt dieselbe Aufmerksamkeit. Mit diesem Punktesystem
+    filtert Clay automatisch die heißesten Prospects – damit du deine Zeit auf die richtigen verwendest.
+  </p>
+
+  <div class="grid-2">
+    <div>
+      <div style="color:var(--muted);font-size:.7rem;text-transform:uppercase;letter-spacing:.12em;margin-bottom:1rem;">Scoring-Kriterien</div>
+      <div class="score-row">
+        <span>🎯 Meta Ads aktiv (Ad Library)</span>
+        <span class="score-pts" style="color:var(--accent-3);">+5</span>
+      </div>
+      <div class="score-row">
+        <span>💬 LinkedIn-Post über Marketing-Schmerz</span>
+        <span class="score-pts" style="color:var(--accent-3);">+5</span>
+      </div>
+      <div class="score-row">
+        <span>💼 Founder aktiv auf LinkedIn (&lt; 30 Tage)</span>
+        <span class="score-pts" style="color:var(--accent-3);">+4</span>
+      </div>
+      <div class="score-row">
+        <span>👥 5–50 Mitarbeiter</span>
+        <span class="score-pts" style="color:var(--accent);">+3</span>
+      </div>
+      <div class="score-row">
+        <span>🛍️ B2C Eigenprodukt (kein Dropshipping)</span>
+        <span class="score-pts" style="color:var(--accent);">+3</span>
+      </div>
+      <div class="score-row">
+        <span>📢 Sucht Performance Marketer</span>
+        <span class="score-pts" style="color:var(--accent);">+3</span>
+      </div>
+      <div class="score-row">
+        <span>🌍 .de Domain</span>
+        <span class="score-pts" style="color:var(--accent-4);">+2</span>
+      </div>
+      <div class="score-row">
+        <span>⚡ Neuer Produktlaunch oder Sale</span>
+        <span class="score-pts" style="color:var(--accent-4);">+2</span>
+      </div>
+      <div class="score-row">
+        <span>❌ Agentur auf Website erwähnt</span>
+        <span class="score-pts" style="color:#fa6d6d;">−4</span>
+      </div>
+      <div class="score-row">
+        <span>❌ Keine Ads in der Ad Library</span>
+        <span class="score-pts" style="color:#fa6d6d;">−3</span>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:1rem;">
+      <div style="color:var(--muted);font-size:.7rem;text-transform:uppercase;letter-spacing:.12em;">Score-Kategorien</div>
+      <div class="card" style="border-color:rgba(109,250,189,.3);">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem;">
+          <strong>Score 15 +</strong>
+          <span class="badge b-green">🔥 Sofort ansprechen</span>
+        </div>
+        <p style="font-size:.82rem;">Alle Signale vorhanden. Hyper-personalisierte E-Mail + LinkedIn-Nachricht gleichzeitig.</p>
+        <div class="prog-bar" style="margin-top:.75rem;"><div class="prog-fill" style="width:100%"></div></div>
+      </div>
+      <div class="card" style="border-color:rgba(124,109,250,.3);">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem;">
+          <strong>Score 10–14</strong>
+          <span class="badge b-purple">✓ In Sequenz</span>
+        </div>
+        <p style="font-size:.82rem;">Guter Lead. Einige Signale fehlen, Standard-Personalisierung reicht aus.</p>
+        <div class="prog-bar" style="margin-top:.75rem;"><div class="prog-fill" style="width:68%"></div></div>
+      </div>
+      <div class="card" style="border-color:rgba(107,114,128,.2);">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem;">
+          <strong>Score &lt; 10</strong>
+          <span class="badge b-gray">⏸ Warten</span>
+        </div>
+        <p style="font-size:.82rem;">Zu wenig Signale. In „Nurture"-Liste – in 4 Wochen erneut prüfen.</p>
+        <div class="prog-bar" style="margin-top:.75rem;"><div class="prog-fill" style="width:28%;background:linear-gradient(90deg,#6b7280,#9ca3af)"></div></div>
+      </div>
+      <div class="info">
+        <div class="info-title">In Clay automatisieren</div>
+        <p style="font-size:.82rem;">Jedes Kriterium = eigenes Boolean-Feld. Ein „Score"-Feld addiert per Formel. Filter: Nur Leads mit Score ≥ 10 kommen in die Outreach-Tabelle.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ 06 CLAY ═══════════════════════ -->
+<section id="clay" class="section">
+  <div class="label">06 · Clay & AI</div>
+  <h2>Automatische <span class="grad">Hyper-Personalisierung</span></h2>
+  <p style="max-width:600px;margin-bottom:2.5rem;">
+    Clay sammelt alle Signale und übergibt sie an OpenAI. Das Ergebnis: Ein erster Satz,
+    der sich anfühlt wie stundenlange Recherche — obwohl er in Sekunden generiert wurde.
+  </p>
+
+  <div class="grid-2">
+    <div>
+      <h3 style="margin-bottom:1rem;">Clay-Workflow</h3>
+      <div class="stack-row">
+        <div style="font-size:1.3rem;">📥</div>
+        <div><div style="font-weight:700;font-size:.875rem;">Lead importieren</div><div style="color:var(--muted);font-size:.78rem;">Name, Domain, LinkedIn-URL, Branche</div></div>
+      </div>
+      <div class="stack-arrow">↓</div>
+      <div class="stack-row">
+        <div style="font-size:1.3rem;">🔗</div>
+        <div><div style="font-weight:700;font-size:.875rem;">Apollo Enrichment</div><div style="color:var(--muted);font-size:.78rem;">Founder-Profil, E-Mail, Mitarbeiterzahl</div></div>
+      </div>
+      <div class="stack-arrow">↓</div>
+      <div class="stack-row">
+        <div style="font-size:1.3rem;">💬</div>
+        <div><div style="font-weight:700;font-size:.875rem;">LinkedIn Posts scrapen</div><div style="color:var(--muted);font-size:.78rem;">Letzte 3 Posts via Phantombuster</div></div>
+      </div>
+      <div class="stack-arrow">↓</div>
+      <div class="stack-row">
+        <div style="font-size:1.3rem;">📊</div>
+        <div><div style="font-weight:700;font-size:.875rem;">Meta Ad Library Check</div><div style="color:var(--muted);font-size:.78rem;">Anzahl Ads, Laufzeit, Format</div></div>
+      </div>
+      <div class="stack-arrow">↓</div>
+      <div class="stack-row">
+        <div style="font-size:1.3rem;">🤖</div>
+        <div><div style="font-weight:700;font-size:.875rem;">OpenAI: Opener generieren</div><div style="color:var(--muted);font-size:.78rem;">1–2 Sätze, konkret und personalisiert</div></div>
+      </div>
+      <div class="stack-arrow">↓</div>
+      <div class="stack-row" style="border-color:rgba(109,250,189,.3);">
+        <div style="font-size:1.3rem;">📤</div>
+        <div><div style="font-weight:700;font-size:.875rem;">Export in Apollo Sequences</div><div style="color:var(--muted);font-size:.78rem;">Fertige E-Mail, bereit zum Versand</div></div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:1.25rem;">
+      <div class="card">
+        <div style="color:var(--muted);font-size:.7rem;text-transform:uppercase;letter-spacing:.12em;margin-bottom:.85rem;">OpenAI Prompt (in Clay)</div>
+        <div style="background:#0c0d22;border-radius:8px;padding:1rem;font-family:monospace;font-size:.76rem;line-height:1.75;color:#a5b4fc;">
+          Du bist ein B2B-Outreach-Spezialist.<br>
+          Schreibe einen personalisierten Opener<br>
+          (max. 2 Sätze) für eine Cold E-Mail.<br><br>
+          Kontext:<br>
+          - Name: <span style="color:var(--accent-3);">{{first_name}}</span><br>
+          - Shop: <span style="color:var(--accent-3);">{{company}}</span><br>
+          - LinkedIn-Post: <span style="color:var(--accent-3);">{{li_post}}</span><br>
+          - Aktive Ads: <span style="color:var(--accent-3);">{{ads_count}}</span><br>
+          - Ads laufen seit: <span style="color:var(--accent-3);">{{ad_days}}</span> Tagen<br>
+          - Kategorie: <span style="color:var(--accent-3);">{{category}}</span><br><br>
+          Sprache: Deutsch.<br>
+          Ton: direkt, nicht schleimig.<br>
+          Referenziere ein konkretes Signal.
+        </div>
+      </div>
+      <div class="info">
+        <div class="info-title">Beispiel-Output (GPT-4o mini)</div>
+        <p style="font-size:.85rem;font-style:italic;line-height:1.75;">
+          „Julian, dein Post von Montag über steigende CPMs hat mich aufhorchen lassen – das ist bei deutschen Shops gerade ein echtes Thema. Ich hab kurz in eure Ad Library geschaut und eine konkrete Idee, wie ihr den ROAS auf euren Videocreatives verbessern könntet."
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ 07 SEQUENZ ═══════════════════════ -->
+<section id="sequenz" class="section">
+  <div class="label">07 · Die Sequenz</div>
+  <h2>Vorher / Nachher:<br><span class="grad">Der Unterschied, der alles macht</span></h2>
+  <p style="max-width:600px;margin-bottom:2rem;">
+    So sieht generisch vs. hyper-personalisiert im echten E-Mail-Vergleich aus.
+  </p>
+
+  <!-- TABS -->
+  <div class="tabs-bar">
+    <button class="tab-btn active" onclick="switchTab('bad', this)">❌ Generisch (vorher)</button>
+    <button class="tab-btn" onclick="switchTab('good', this)">✅ Hyper-Personalisiert (nachher)</button>
+  </div>
+
+  <div id="pane-bad" class="tab-pane active">
+    <div class="email-mock">
+      <div class="email-chrome">
+        <div class="dot" style="background:#ff5f57"></div>
+        <div class="dot" style="background:#febc2e"></div>
+        <div class="dot" style="background:#28c840"></div>
+        <div class="email-subj">Betreff: Wir helfen Shopify-Shops zu wachsen</div>
+      </div>
+      <div class="email-body">
+        Hallo <span class="hl-bad">Julian</span>,<br><br>
+        ich hoffe diese E-Mail erreicht dich gut.<br><br>
+        Ich habe gesehen, dass <span class="hl-bad">du einen Shopify-Shop betreibst</span>. Wir helfen E-Commerce-Unternehmen dabei, durch Meta-Ads zu wachsen und mehr Umsatz zu generieren.<br><br>
+        <span class="hl-bad">Viele unserer Kunden haben ihren Umsatz verdoppelt.</span> Ich würde gerne mit dir besprechen, wie wir dir helfen können, ähnliche Ergebnisse zu erzielen.<br><br>
+        Hast du nächste Woche 15 Minuten Zeit für ein kurzes Gespräch?<br><br>
+        Beste Grüße,<br>Max
+      </div>
+    </div>
+    <div style="margin-top:1rem;display:flex;gap:.5rem;flex-wrap:wrap;">
+      <span class="badge b-red">Kein konkretes Signal</span>
+      <span class="badge b-red">Kein Bezug auf den Shop</span>
+      <span class="badge b-red">Leerer Social Proof</span>
+      <span class="badge b-red">Reply-Rate: ~0,3 %</span>
+    </div>
+  </div>
+
+  <div id="pane-good" class="tab-pane">
+    <div class="email-mock">
+      <div class="email-chrome">
+        <div class="dot" style="background:#ff5f57"></div>
+        <div class="dot" style="background:#febc2e"></div>
+        <div class="dot" style="background:#28c840"></div>
+        <div class="email-subj">Betreff: Idee für eure Meta-Strategie (wegen deines Posts von Montag)</div>
+      </div>
+      <div class="email-body">
+        Hey Julian,<br><br>
+        <span class="hl-good">dein Post von Montag über steigende CPMs</span> hat mich aufhorchen lassen – das ist bei deutschen Shops gerade wirklich ein echtes Thema.<br><br>
+        Ich hab kurz <span class="hl-good">in eure Ad Library geschaut: ihr lauft seit 6 Wochen zwei Video-Ads</span> — kein Retargeting, keine Dynamic Product Ads. Genau das ist meistens der missing link bei Shops in eurer Größe.<br><br>
+        Wir haben das Setup bei <span class="hl-good">drei ähnlichen deutschen Shopify-Brands</span> implementiert. Durchschnittlicher ROAS-Anstieg: +40 % in 8 Wochen.<br><br>
+        Keine Präsentation, kein Sales-Call. <span class="hl-good">Ich würde dir in 20 Minuten konkret zeigen, was ich für [Shop-Name] ändern würde</span>.<br><br>
+        Passt Donnerstag oder Freitag?<br><br>
+        Grüße,<br>Max
+      </div>
+    </div>
+    <div style="margin-top:1rem;display:flex;gap:.5rem;flex-wrap:wrap;">
+      <span class="badge b-green">LinkedIn-Post als Trigger</span>
+      <span class="badge b-green">Ad Library konkret recherchiert</span>
+      <span class="badge b-green">Spezifischer Mehrwert</span>
+      <span class="badge b-green">Reply-Rate: ~12 %</span>
+    </div>
+  </div>
+
+  <!-- 3-E-MAIL-SEQUENZ -->
+  <div style="margin-top:3.5rem;">
+    <h3 style="margin-bottom:1.25rem;">Die 3-E-Mail-Sequenz</h3>
+    <div style="display:flex;flex-direction:column;gap:.75rem;">
+      <div class="card" style="border-left:3px solid var(--accent);">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.5rem;">
+          <h3>E-Mail 1 – Tag 0</h3>
+          <span class="badge b-purple">Hyper-Personalisiert</span>
+        </div>
+        <p style="font-size:.875rem;">Opener = AI-generiert aus Signal. Kern = konkreter Befund (Ad Library + LinkedIn-Post). CTA = 20 Minuten, keine Präsentation. Kein „Ich wollte mich kurz vorstellen".</p>
+      </div>
+      <div class="card" style="border-left:3px solid var(--accent-4);">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.5rem;">
+          <h3>E-Mail 2 – Tag 4</h3>
+          <span class="badge b-orange">Social Proof</span>
+        </div>
+        <p style="font-size:.875rem;">Kein „Nur kurze Nachfrage". Neuer Winkel: Eine Case Study eines ähnlichen deutschen Shops mit konkreten Zahlen. Maximal 3–4 Sätze. Neue Info, kein Wiederholen.</p>
+      </div>
+      <div class="card" style="border-left:3px solid var(--muted);">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.5rem;">
+          <h3>E-Mail 3 – Tag 9</h3>
+          <span class="badge b-gray">Break-Up</span>
+        </div>
+        <p style="font-size:.875rem;">„Letzter Versuch – falls das gerade kein Thema ist, völlig verständlich. Falls doch: Hier ist ein Link zu einem kostenlosen 15-Min-Audit." Gibt eine einfache Ja-Option ohne Terminabstimmung.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ 08 STACK ═══════════════════════ -->
+<section id="stack" class="section">
+  <div class="label">08 · Der Stack</div>
+  <h2>Tools & <span class="grad">Kosten im Überblick</span></h2>
+  <p style="max-width:600px;margin-bottom:2.5rem;">
+    Minimaler Stack für maximale Wirkung — optimiert für 50–100 Leads pro Monat.
+  </p>
+
+  <div class="grid-2">
+    <div>
+      <div style="display:flex;flex-direction:column;gap:.4rem;">
+        <div class="stack-row">
+          <div style="font-size:1.2rem;">🔍</div>
+          <div style="flex:1;">
+            <div style="font-weight:700;font-size:.85rem;">Lead-Finden</div>
+            <div style="margin-top:.3rem;">
+              <span class="chip">Apollo.io</span>
+              <span class="chip">BuiltWith</span>
+            </div>
+          </div>
+        </div>
+        <div class="stack-arrow">↓</div>
+        <div class="stack-row">
+          <div style="font-size:1.2rem;">📡</div>
+          <div style="flex:1;">
+            <div style="font-weight:700;font-size:.85rem;">Signal Collection</div>
+            <div style="margin-top:.3rem;">
+              <span class="chip">Phantombuster</span>
+              <span class="chip">Meta Ad Library</span>
+            </div>
+          </div>
+        </div>
+        <div class="stack-arrow">↓</div>
+        <div class="stack-row">
+          <div style="font-size:1.2rem;">⚗️</div>
+          <div style="flex:1;">
+            <div style="font-weight:700;font-size:.85rem;">Enrichment, Scoring & Personalisierung</div>
+            <div style="margin-top:.3rem;">
+              <span class="chip">Clay</span>
+              <span class="chip">OpenAI GPT-4o mini</span>
+            </div>
+          </div>
+        </div>
+        <div class="stack-arrow">↓</div>
+        <div class="stack-row">
+          <div style="font-size:1.2rem;">✅</div>
+          <div style="flex:1;">
+            <div style="font-weight:700;font-size:.85rem;">E-Mail Verifikation</div>
+            <div style="margin-top:.3rem;">
+              <span class="chip">Apollo (built-in)</span>
+              <span class="chip">Bouncer</span>
+            </div>
+          </div>
+        </div>
+        <div class="stack-arrow">↓</div>
+        <div class="stack-row">
+          <div style="font-size:1.2rem;">📨</div>
+          <div style="flex:1;">
+            <div style="font-weight:700;font-size:.85rem;">Versand & Sequenz</div>
+            <div style="margin-top:.3rem;">
+              <span class="chip">Apollo Sequences</span>
+            </div>
+          </div>
+        </div>
+        <div class="stack-arrow">↓</div>
+        <div class="stack-row" style="border-color:rgba(109,250,189,.3);">
+          <div style="font-size:1.2rem;">📅</div>
+          <div style="flex:1;">
+            <div style="font-weight:700;font-size:.85rem;">Meetings & CRM</div>
+            <div style="margin-top:.3rem;">
+              <span class="chip">Calendly</span>
+              <span class="chip">HubSpot Free</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:1.25rem;">
+      <div class="card">
+        <h3 style="margin-bottom:1rem;">💰 Kosten / Monat</h3>
+        <div class="cost-row"><span>Apollo Basic</span><span style="color:var(--muted-2);">$49</span></div>
+        <div class="cost-row"><span>Clay Free Plan</span><span style="color:var(--accent-3);">$0</span></div>
+        <div class="cost-row"><span>Phantombuster Starter</span><span style="color:var(--muted-2);">$56</span></div>
+        <div class="cost-row"><span>Bouncer (100 Leads)</span><span style="color:var(--muted-2);">~$3</span></div>
+        <div class="cost-row"><span>HubSpot Free</span><span style="color:var(--accent-3);">$0</span></div>
+        <div class="cost-row"><span>Calendly Free</span><span style="color:var(--accent-3);">$0</span></div>
+        <hr>
+        <div class="cost-row" style="background:rgba(109,250,189,.05);">
+          <strong>Gesamt</strong>
+          <strong style="color:var(--accent-3);">~$108 / Monat</strong>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-bottom:1rem;">📈 Erwartete Ergebnisse</h3>
+        <div style="display:flex;flex-direction:column;gap:.85rem;">
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:.82rem;margin-bottom:.25rem;">
+              <span>Leads / Monat</span><span>50–100</span>
+            </div>
+            <div class="prog-bar"><div class="prog-fill" style="width:80%"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:.82rem;margin-bottom:.25rem;">
+              <span>Reply-Rate</span><span style="color:var(--accent-3);">8–15 %</span>
+            </div>
+            <div class="prog-bar"><div class="prog-fill" style="width:55%"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:.82rem;margin-bottom:.25rem;">
+              <span>Meetings / Monat</span><span style="color:var(--accent-3);">3–8</span>
+            </div>
+            <div class="prog-bar"><div class="prog-fill" style="width:38%"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:.82rem;margin-bottom:.25rem;">
+              <span>Close Rate (Meeting → Kunde)</span><span>20–30 %</span>
+            </div>
+            <div class="prog-bar"><div class="prog-fill" style="width:25%;background:linear-gradient(90deg,#fabd6d,#fa6d6d)"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ 09 ACTION PLAN ═══════════════════════ -->
+<section id="action" class="section">
+  <div class="label">09 · Action Plan</div>
+  <h2>Die ersten <span class="grad-green">7 Tage</span></h2>
+  <p style="max-width:600px;margin-bottom:2.5rem;">
+    Konkrete Schritte, um das System diese Woche aufzusetzen — ohne Überwältigung.
+  </p>
+
+  <div class="action-card">
+    <div class="day-tag">Tag 1–2</div>
+    <div>
+      <h3 style="font-size:1rem;">Apollo aufsetzen & erste 100 Leads exportieren</h3>
+      <p style="font-size:.85rem;">Shopify + DACH + 5–50 MA + CEO/Founder. CSV exportieren. Manuell 15–20 Mins qualifizieren: Ist es ein echtes Eigenprodukt? Keine Dropshipping-Shops.</p>
+    </div>
+  </div>
+
+  <div class="action-card">
+    <div class="day-tag">Tag 3</div>
+    <div>
+      <h3 style="font-size:1rem;">Clay-Tabelle aufsetzen</h3>
+      <p style="font-size:.85rem;">Apollo-CSV importieren. LinkedIn-Enrichment einrichten. Score-Felder und Formel anlegen. Ziel: automatisches Ranking der Top 50.</p>
+    </div>
+  </div>
+
+  <div class="action-card">
+    <div class="day-tag">Tag 4</div>
+    <div>
+      <h3 style="font-size:1rem;">Meta Ad Library für Top 20 Leads manuell prüfen</h3>
+      <p style="font-size:.85rem;">Noch ohne Automation: 20 Minuten, jeden der Top-Leads kurz in der Ad Library nachschlagen. Befund (Anzahl Ads, Laufzeit) in Clay-Felder eintragen.</p>
+    </div>
+  </div>
+
+  <div class="action-card">
+    <div class="day-tag">Tag 5</div>
+    <div>
+      <h3 style="font-size:1rem;">OpenAI-Prompt in Clay testen & iterieren</h3>
+      <p style="font-size:.85rem;">5 Opener generieren lassen. Laut vorlesen: Klingt das echt oder nach Bot? So lange anpassen, bis es natürlich klingt. Dann erst skalieren.</p>
+    </div>
+  </div>
+
+  <div class="action-card" style="border-color:rgba(109,250,189,.3);">
+    <div class="day-tag" style="background:rgba(109,250,189,.15);color:var(--accent-3);">Tag 6–7</div>
+    <div>
+      <h3 style="font-size:1rem;">Erste 10 E-Mails manuell versenden</h3>
+      <p style="font-size:.85rem;">Nicht direkt automatisieren. Erst 10 echte, personalisierte E-Mails aus Gmail senden. Antworten analysieren, Messaging optimieren — dann erst in Apollo Sequences überführen.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Erstellt für deine Performance-Marketing-Agentur · Fokus: Shopify-Shops im DACH-Raum</p>
+</footer>
+
+<script>
+  // Scroll progress
+  window.addEventListener('scroll', () => {
+    const max = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    document.getElementById('progress-bar').style.width = (window.scrollY / max * 100) + '%';
+  });
+
+  // Tab switching
+  function switchTab(name, btn) {
+    document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('pane-' + name).classList.add('active');
+    btn.classList.add('active');
+  }
+</script>
+</body>
+</html>
